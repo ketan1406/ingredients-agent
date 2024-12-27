@@ -1,19 +1,37 @@
 # ingredients-agent/srv/main.py
-from fastapi import FastAPI
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from analysis import analyze_image
 
 app = FastAPI()
 
-# Add this block to configure CORS
+# CORS setup for local dev
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # or ["*"] for all domains
+    allow_origins=["http://localhost:5173"],  # or ["*"] if easier
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-@app.get("/")
-def hello_world():
-    return {"message": "Hello from FastAPI!"}
+@app.post("/analyze")
+async def analyze_endpoint(file: UploadFile = File(...)):
+    """
+    Receives an uploaded image, passes it to the AI, 
+    and returns the analysis as JSON.
+    """
+    image_bytes = await file.read()
+
+    # Call our analysis function
+    try:
+        analysis_result = analyze_image(image_bytes)
+        return {"content": analysis_result}
+    except Exception as e:
+        print("Analyze error:", e)
+        return JSONResponse({"error": str(e)}, status_code=500)

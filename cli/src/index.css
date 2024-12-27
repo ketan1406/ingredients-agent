@@ -1,33 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Force dark background when .dark is on html */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg-color: #ffffff;
+  --text-color: #000000;
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.dark {
+  --bg-color: #0a0a0a;
+  --text-color: #ffffff;
 }
-a:hover {
-  color: #535bf2;
-}
-
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 h1 {
@@ -54,15 +41,30 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.markdown-body {
+  font-size: 0.60rem; /* text-sm */
+  line-height: 1.2rem;   /* leading-relaxed */
+  color: var(--muted-foreground); /* Use Tailwind's text-muted-foreground color */
+  margin-bottom: 1rem;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  font-size: 1rem; /* Heading size */
+  font-weight: 600;   /* font-semibold */
+  margin-bottom: 0.5rem;
+}
+
+.markdown-body p {
+  margin-bottom: 0.5rem; /* Add spacing between paragraphs */
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+  margin-left: 1rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.5rem;
 }
